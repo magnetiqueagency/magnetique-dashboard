@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>magnetique — Login</title>
+  <style>
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+    @font-face { font-family: 'Montserrat'; src: url('/fonts/Montserrat-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #111314;
+      --bg-secondary: #18191B;
+      --bg-card: #1E2022;
+      --accent: #D8DCDE;
+      --accent-dim: rgba(255, 255, 255, 0.06);
+      --text-primary: #EAECEE;
+      --text-secondary: #888D91;
+      --text-muted: #555A5E;
+      --border: rgba(255, 255, 255, 0.07);
+      --error: #FF6B6B;
+      --focus: rgba(255, 255, 255, 0.15);
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      padding: 0 24px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 0 3px var(--focus);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .error-msg {
+      color: var(--error);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: none;
+      padding: 10px 14px;
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: var(--radius-sm);
+    }
+
+    .error-msg.visible { display: block; }
+
+    .btn-login {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .btn-login:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <h1>magnetique</h1>
+      <span>Dashboard</span>
+    </div>
+    <div class="login-card">
+      <div class="error-msg" id="error"></div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Benutzername</label>
+          <input type="text" id="username" placeholder="max.mustermann" autocomplete="username" required autofocus>
+        </div>
+        <div class="form-group">
+          <label>Passwort</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn-login" id="btnLogin">Anmelden</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('error');
+    const btnLogin = document.getElementById('btnLogin');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.remove('visible');
+      btnLogin.disabled = true;
+      btnLogin.textContent = 'Wird geprüft...';
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          window.location.href = '/';
+        } else {
+          errorEl.textContent = data.error;
+          errorEl.classList.add('visible');
+        }
+      } catch {
+        errorEl.textContent = 'Verbindungsfehler — Server nicht erreichbar';
+        errorEl.classList.add('visible');
+      }
+
+      btnLogin.disabled = false;
+      btnLogin.textContent = 'Anmelden';
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   dashboard:
@@ -17,7 +16,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.magnetique.net`)"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.tls.certresolver=mytlschallenge"
       - "traefik.http.services.dashboard.loadbalancer.server.port=3000"
     networks:
       - n8n_n8n-network
